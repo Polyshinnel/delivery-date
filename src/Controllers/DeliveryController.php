@@ -154,6 +154,49 @@ class DeliveryController
         $startWeekMkt = strtotime($week_start);
         $endWeekMkt = strtotime($week_end);
 
+        $filter = [
+            'provider_id' => $item['provider_id'],
+            'exception_day' => date('Y-m-d')
+        ];
+        $deliveryException = $this->deliveryExceptionRepository->getFilteredDeliveryException($filter);
+
+        if(!empty($deliveryException) && ($weekDay == $item['week_day'])) {
+            $exception = $deliveryException[0];
+
+            if($exception['delivery_flag']) {
+                $offsetStr = "+".$exception['delivery_day_offset'].' days';
+                $mktShip = strtotime($exception['shipment_time_until']);
+                $vipTimeMkt = strtotime($exception['vip_time_until']);
+                $dayDelivery = date('d.m.Y', strtotime($offsetStr));
+                $dayOfWeekByDate = date('w', strtotime($dayDelivery));
+                $dayWeekText = $this->russianWeekDict[$dayOfWeekByDate];
+
+                if(($mktCurr < $mktShip)) {
+                    $textDelivery = 'Действует исключение:'.$exception['exception_name'].',при заказе сегодня, доставят '.$dayDelivery.'('.$dayWeekText.')';
+                }
+
+                if($exception['vip_flag']) {
+                    if($mktCurr < $vipTimeMkt) {
+                        $textVipDelivery = 'Действует исключение '.$exception['exception_name'].'. Доставят сегодня, при заказе до '.$exception['vip_time_until'];
+                    } else {
+                        $textVipDelivery = 'На сегодня уже не доступно, действует исключение '.$exception['exception_name'];
+                    }
+                } else {
+                    $textVipDelivery = 'Заказ VIP в данный день не возможен, действует исключение '.$exception['exception_name'];
+                }
+
+            } else {
+                $textDelivery = 'На данный день, действует исключение: '.$exception['exception_name'].', доставка не доступна';
+                $textVipDelivery = 'Заказ VIP в данный день не возможен, действует исключение '.$exception['exception_name'];
+            }
+
+            return [
+                'delivery_day' => $textDelivery,
+                'vip_day' => $textVipDelivery
+            ];
+        }
+
+
 
         if($item['delivery_flag'] != 1) {
             $textDelivery = 'Заказ в данный день не возможен';
