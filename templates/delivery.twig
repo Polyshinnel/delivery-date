@@ -1,0 +1,97 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<div class="box-container">
+    <div class="delivery-wrapper">
+        <div class="delivery-wrapper__title">
+            <p></p>
+            <p>Заказ(есть/нет)</p>
+            <p>Заказать до:</p>
+            <p>Через сколько привезут</p>
+            <p>Заказ VIP(есть/нет)</p>
+            <p>Заказать VIP до:</p>
+            <p>Прогноз поступления</p>
+            <p>Прогноз поступления VIP:</p>
+        </div>
+
+        {% if delivery_list %}
+            {% for delivery in delivery_list %}
+                {% if delivery.delivery_flag %}
+                    <div class="delivery-line">
+                        <p class="monosize delivery-week-day" data-id="{{ delivery.id }}" data-week="{{ delivery.week_day }}">{{ delivery.encoded_week_day }}</p>
+                        <div class="checkbox-wrapper monosize delivery-flag">
+                            {% if delivery.delivery_flag %}
+                                <input type="checkbox" name="" id="" checked>
+                            {% else %}
+                                <input type="checkbox" name="" id="">
+                            {% endif %}
+                        </div>
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-time" name="" id="" value="{{ delivery.shipment_time_until }}">
+                        </div>
+
+                        <div class="monosize">
+                            <input type="text" class="monosize delivery-day-offset" name="" id="" value="{{ delivery.delivery_day_offset }}">
+                        </div>
+
+                        <div class="checkbox-wrapper monosize delivery-vip">
+                            {% if delivery.vip_flag %}
+                                <input type="checkbox" name="" id="" checked>
+                            {% else %}
+                                <input type="checkbox" name="" id="">
+                            {% endif %}
+                        </div>
+
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-vip-time" name="" id="" value="{{ delivery.vip_time_until }}">
+                        </div>
+
+                        <p class="monosize">{{ delivery.delivery_day }}</p>
+                        <p class="monosize">{{ delivery.vip_day }}</p>
+                    </div>
+                {% else %}
+                    <div class="delivery-line">
+                        <p class="monosize delivery-week-day" data-id="{{ delivery.id }}" data-week="{{ delivery.week_day }}">{{ delivery.encoded_week_day }}</p>
+                        <div class="checkbox-wrapper monosize delivery-flag">
+                            {% if delivery.delivery_flag %}
+                                <input type="checkbox" name="" id="" checked>
+                            {% else %}
+                                <input type="checkbox" name="" id="">
+                            {% endif %}
+                        </div>
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-time" name="" id="" value="{{ delivery.shipment_time_until }}" disabled>
+                        </div>
+
+                        <div class="monosize">
+                            <input type="text" class="monosize delivery-day-offset" name="" id="" value="{{ delivery.delivery_day_offset }}" disabled>
+                        </div>
+
+                        <div class="checkbox-wrapper monosize delivery-vip">
+                            <input type="checkbox" name="" id="" disabled>
+                        </div>
+
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-vip-time" name="" id="" value="{{ delivery.vip_time_until }}" disabled>
+                        </div>
+
+                        <p class="monosize">{{ delivery.delivery_day }}</p>
+                        <p class="monosize">{{ delivery.vip_day }}</p>
+                    </div>
+                {% endif %}
+                
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <button class="refresh-data" id="refresh-delivery">Обновить данные</button>
+
+    <a href="/settings/delivery/create/{{ provider_id }}" class="delivery-exception-link">
+        <button class="delivery-exception">Создать событие</button>
+    </a>
+    <a href="/settings/delivery/delivery-exception/{{ provider_id }}" class="delivery-exception-link">
+        <button class="delivery-exception">Добавить исключение</button>
+    </a>
+</div>
+    
+{% endblock %}

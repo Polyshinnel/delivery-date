@@ -1,0 +1,100 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<div class="box-container">
+    <div class="delivery-wrapper">
+        <div class="delivery-wrapper__title">
+            <p>Название</p>
+            <p>Дата</p>
+            <p>Заказ(есть/нет)</p>
+            <p>Заказать до:</p>
+            <p>Через сколько привезут</p>
+            <p>Заказ VIP(есть/нет)</p>
+            <p>Заказать VIP до:</p>
+        </div>
+
+
+        {% if exception_list %}
+            {% for exception in exception_list %}
+                {% if exception.delivery_flag %}
+                    <div class="delivery-line delivery-exception-exist">
+                        <p class="monosize">
+                            <input type="text" name="" id="" class="delivery-name" value="{{ exception.exception_name }}" data-id="{{ exception.id }}">
+                        </p>
+                        <p class="monosize">
+                            <input type="date" name="" id="" class="delivery-date" value="{{ exception.exception_day }}">
+                        </p>
+                        <div class="checkbox-wrapper monosize">
+                            <input type="checkbox" name="" id="" class="delivery-flag" checked>
+                        </div>
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-time-until" name="" id="" value="{{ exception.shipment_time_until }}">
+                        </div>
+
+                        <div class="monosize">
+                            <input type="text" class="monosize delivery-day-offset" name="" id="" value="{{ exception.delivery_day_offset }}">
+                        </div>
+
+                        <div class="checkbox-wrapper monosize">
+                            {% if exception.vip_flag %}
+                                <input type="checkbox" name="" id="" class="vip-flag" checked>
+                            {% else %}
+                                <input type="checkbox" name="" id="" class="vip-flag">
+                            {% endif %}
+                        </div>
+
+                        <div class="monosize">
+                            <input type="time" class="monosize vip-time" name="" id="" value="{{ exception.vip_time_until }}">
+                        </div>
+
+                        <button class="delete-exception" data-id="{{ exception.id }}">✕</button>
+                    </div>
+                {% else %}
+                    <div class="delivery-line delivery-exception-exist">
+                        <p class="monosize">
+                            <input type="text" name="" id="" class="delivery-name" value="{{ exception.exception_name }}" data-id="{{ exception.id }}">
+                        </p>
+                        <p class="monosize">
+                            <input type="date" name="" id="" class="delivery-date" value="{{ exception.exception_day }}">
+                        </p>
+                        <div class="checkbox-wrapper monosize">
+                            <input type="checkbox" name="" id="" class="delivery-flag">
+                        </div>
+                        <div class="monosize">
+                            <input type="time" class="monosize delivery-time-until" name="" id="" value="{{ exception.shipment_time_until }}" disabled>
+                        </div>
+
+                        <div class="monosize">
+                            <input type="text" class="monosize delivery-day-offset" name="" id="" value="{{ exception.delivery_day_offset }}" disabled>
+                        </div>
+
+                        <div class="checkbox-wrapper monosize">
+                            {% if exception.vip_flag %}
+                                <input type="checkbox" name="" id="" class="vip-flag" checked disabled>
+                            {% else %}
+                                <input type="checkbox" name="" id="" class="vip-flag" disabled>
+                            {% endif %}
+                        </div>
+
+                        <div class="monosize">
+                            <input type="time" class="monosize vip-time" name="" id="" value="{{ exception.vip_time_until }}" disabled>
+                        </div>
+
+                        <button class="delete-exception" data-id="{{ exception.id }}">✕</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <button class="refresh-data" id="add-delivery-exception">Добавить день</button>
+    <button class="refresh-data" id="refresh-delivery-exception">Oбновить данные</button>
+
+    <div class="create-btn" style="margin-top: 20px;">
+        <button class="delivery-exception" id="create-exception">Создать</button>
+    </div>
+
+
+</div>
+    
+{% endblock %}

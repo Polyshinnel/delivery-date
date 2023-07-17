@@ -1,0 +1,59 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+<div class="box-container">
+    <div class="delivery-wrapper">
+        <div class="delivery-wrapper__title">
+            <p>День недели</p>
+            <p>Заказ(есть/нет)</p>
+            <p>Заказать до:</p>
+            <p>Через сколько привезут</p>
+            <p>Заказ VIP(есть/нет)</p>
+            <p>Заказать VIP до:</p>
+        </div>
+
+        <div class="delivery-line">
+            <p class="monosize">
+                <select name="" id="" class="delivery-day">
+                    <option value="1">Понедельник</option>
+                    <option value="2">Вторник</option>
+                    <option value="3">Среда</option>
+                    <option value="4">Четверг</option>
+                    <option value="5">Пятница</option>
+                    <option value="6">Суббота</option>
+                    <option value="0">Воскресенье</option>
+                </select>
+            </p>
+            <div class="checkbox-wrapper monosize">
+                <input type="checkbox" name="" id="" class="delivery-flag">
+            </div>
+            <div class="monosize">
+                <input type="time" class="monosize delivery-time-until" name="" id="" value="">
+            </div>
+
+            <div class="monosize">
+                <input type="text" class="monosize delivery-day-offset" name="" id="" value="">
+            </div>
+
+            <div class="checkbox-wrapper monosize">
+                <input type="checkbox" name="" id="" class="vip-flag">
+            </div>
+
+            <div class="monosize">
+                <input type="time" class="monosize vip-time" name="" id="" value="">
+            </div>
+
+        </div>
+    </div>
+
+
+    <button class="refresh-data" id="add-delivery">Добавить день</button>
+
+    <div class="create-btn" style="margin-top: 20px;">
+        <button class="delivery-exception" id="create-exception">Создать</button>
+    </div>
+
+
+</div>
+    
+{% endblock %}

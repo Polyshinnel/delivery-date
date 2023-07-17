@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none !important;
+    font-family: 'Roboto', sans-serif;
+}
+
+.box-container{
+    width: 1340px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.provider-wrapper{
+    display: flex;
+    align-items: center;
+
+    a{
+        text-decoration: none;
+        display: flex;
+    }
+
+    button{
+        width: 150px;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    a+a{
+        margin-left: 50px;
+    }
+}
+
+.delivery-wrapper{
+    .delivery-wrapper__title{
+        display: flex;
+        align-items: flex-start;
+
+        p{
+            width: 160px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        p+p{
+            margin-left: 20px;
+        }
+        margin-bottom: 30px;
+    }
+
+    .delivery-line{
+        display: flex;
+        align-items: flex-start;
+        margin-top: 20px;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+
+        .checkbox-wrapper{
+            display: flex;
+            justify-content: center;
+        }
+
+        .monosize{
+            width: 160px;
+            display: flex;
+            justify-content: center;
+
+            input:text{
+                width: 140px;
+            }
+
+            input:date{
+                width: 140px;
+            }
+
+            input:time{
+                width: 140px;
+            }
+        }
+
+        .monosize+.monosize{
+            margin-left: 20px;
+        }
+
+        p{
+            font-size: 12px;
+            text-align: center;
+        }
+    }
+    
+}
+
+.delivery-exception-link{
+    text-decoration: none;
+    display: flex;
+    margin-top: 20px;
+    width: 200px;
+    height: 45px;
+}
+
+.delivery-exception{
+    width: 200px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.refresh-data{
+    margin-top: 50px;
+    width: 150px;
+    height: 35px;
+    background-color: aqua;
+    cursor: pointer;
+}
+
+.delete-exception{
+    margin-left: 30px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
