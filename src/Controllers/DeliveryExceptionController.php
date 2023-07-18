@@ -80,30 +80,37 @@ class DeliveryExceptionController
             $exceptionDay = $item['exception_day'];
             $deliveryFlag = $item['delivery_flag'];
             $shipmentTimeUntil = $item['shipment_time_until'];
-            if(empty($shipmentTimeUntil)) {
-                $shipmentTimeUntil = NULL;
-            }
-            $deliveryDayOffset = $item['delivery_day_offset'];
-            if(empty($deliveryDayOffset)) {
-                $deliveryDayOffset = NULL;
-            }
-            $vipFlag = $item['vip_flag'];
-            $vipTimeUntil = $item['vip_time_until'];
-            if(empty($vipTimeUntil)) {
-                $vipTimeUntil = NULL;
+
+            if(!$item['delete_flag']) {
+                if(empty($shipmentTimeUntil)) {
+                    $shipmentTimeUntil = NULL;
+                }
+                $deliveryDayOffset = $item['delivery_day_offset'];
+                if(empty($deliveryDayOffset)) {
+                    $deliveryDayOffset = NULL;
+                }
+                $vipFlag = $item['vip_flag'];
+                $vipTimeUntil = $item['vip_time_until'];
+                if(empty($vipTimeUntil)) {
+                    $vipTimeUntil = NULL;
+                }
+
+                $updateArr = [
+                    'exception_name' => $exceptionName,
+                    'exception_day' => $exceptionDay,
+                    'delivery_flag' => $deliveryFlag,
+                    'shipment_time_until' => $shipmentTimeUntil,
+                    'delivery_day_offset' => $deliveryDayOffset,
+                    'vip_flag' => $vipFlag,
+                    'vip_time_until' => $vipTimeUntil
+                ];
+
+                $this->deliveryExceptionRepository->updateDeliverException($exceptionId,$updateArr);
+            } else {
+                $this->deliveryExceptionRepository->deleteDeliveryException($exceptionId);
             }
 
-            $updateArr = [
-                'exception_name' => $exceptionName,
-                'exception_day' => $exceptionDay,
-                'delivery_flag' => $deliveryFlag,
-                'shipment_time_until' => $shipmentTimeUntil,
-                'delivery_day_offset' => $deliveryDayOffset,
-                'vip_flag' => $vipFlag,
-                'vip_time_until' => $vipTimeUntil
-            ];
 
-            $this->deliveryExceptionRepository->updateDeliverException($exceptionId,$updateArr);
         }
     }
 

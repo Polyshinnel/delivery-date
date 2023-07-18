@@ -44,37 +44,31 @@ class DeliveryPage
         );
     }
 
-
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function processingDelivery(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $params = $request->getParsedBody();
-        $json = $params['json'];
-
-        $this->deliveryController->updateDelivery($json);
-
-        $data = json_encode(['msg' => 'data was updated']);
-        return new Response(
-            200,
-            new Headers(['Content-Type' => 'text/html']),
-            (new StreamFactory())->createStream($data)
-        );
-    }
-
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $params = $request->getParsedBody();
-        $json = $params['json'];
         $providerId = $params['provider_id'];
+        if(!empty($params['delivery_json'])) {
+            $this->deliveryController->updateDelivery($params['delivery_json']);
+        }
 
-        $this->deliveryController->createDeliveryRecord($providerId, $json);
+        if(!empty($params['exception_json'])) {
+            $this->deliveryExceptionController->updateDeliveryDayException($params['exception_json']);
+        }
 
-        $data = json_encode(['msg' => 'data was updated']);
+        if(!empty($params['new_exception_json'])) {
+            $this->deliveryExceptionController->createDeliveryException($providerId, $params['new_exception_json']);
+        }
+
+        $data = json_encode(['err' => 'no']);
+
         return new Response(
             200,
-            new Headers(['Content-Type' => 'text/html']),
+            new Headers(['Content-Type' => 'application/json']),
             (new StreamFactory())->createStream($data)
         );
     }
+
 
     public function getPrediction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {

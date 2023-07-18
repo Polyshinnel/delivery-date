@@ -70,7 +70,7 @@
         align-items: flex-start;
         margin-top: 20px;
         border-top: 1px solid #ccc;
-        padding: 10px 0;
+        padding: 10px;
 
         .checkbox-wrapper{
             display: flex;
@@ -109,6 +109,10 @@
 
 .delivery-wrapper-exception{
     margin-top: 40px;
+}
+
+.delivery-exception-new{
+    background: #F0F3FF;
 }
 
 .delivery-exception-link{

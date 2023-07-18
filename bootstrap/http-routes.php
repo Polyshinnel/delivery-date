@@ -12,13 +12,7 @@ return static function (App $app): void {
 
         $group->get('settings/delivery/{id}',[DeliveryPage::class,'get']);
 
-
-        $group->post('settings/update-delivery',[DeliveryPage::class,'update']);
-        $group->post('settings/create-delivery',[DeliveryPage::class,'create']);
         $group->post('settings/prediction-delivery',[DeliveryPage::class,'getPrediction']);
-
-        $group->post('settings/delivery-exception/create',[DeliveryExceptionPage::class,'create']);
-        $group->post('settings/delivery-exception/update',[DeliveryExceptionPage::class,'update']);
-        $group->post('settings/delivery-exception/delete',[DeliveryExceptionPage::class,'delete']);
+        $group->post('settings/processing-delivery',[DeliveryPage::class,'processingDelivery']);
     });
 };

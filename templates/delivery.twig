@@ -20,7 +20,7 @@
         {% if delivery_list %}
             {% for delivery in delivery_list %}
                 {% if delivery.delivery_flag %}
-                    <div class="delivery-line">
+                    <div class="delivery-line delivery-line-base">
                         <p class="monosize delivery-week-day" data-id="{{ delivery.id }}" data-week="{{ delivery.week_day }}">{{ delivery.encoded_week_day }}</p>
                         <div class="checkbox-wrapper monosize delivery-flag">
                             {% if delivery.delivery_flag %}
@@ -53,7 +53,7 @@
                         <p class="monosize vip-prediction">{{ delivery.vip_day }}</p>
                     </div>
                 {% else %}
-                    <div class="delivery-line">
+                    <div class="delivery-line delivery-line-base">
                         <p class="monosize delivery-week-day" data-id="{{ delivery.id }}" data-week="{{ delivery.week_day }}">{{ delivery.encoded_week_day }}</p>
                         <div class="checkbox-wrapper monosize delivery-flag">
                             {% if delivery.delivery_flag %}
@@ -104,7 +104,7 @@
             {% if exception_list %}
                 {% for exception in exception_list %}
                     {% if exception.delivery_flag %}
-                        <div class="delivery-line delivery-exception-exist">
+                        <div class="delivery-line delivery-line-exception delivery-exception-exist">
                             <p class="monosize">
                                 <input type="text" name="" id="" class="delivery-name" value="{{ exception.exception_name }}" data-id="{{ exception.id }}">
                             </p>
@@ -134,7 +134,7 @@
                                 <input type="time" class="monosize vip-time" name="" id="" value="{{ exception.vip_time_until }}">
                             </div>
 
-                            <button class="delete-exception" data-id="{{ exception.id }}">✕</button>
+                            <button class="delete-exception" data-id="{{ exception.id }}" data-flag="0">✕</button>
                         </div>
                     {% else %}
                         <div class="delivery-line delivery-exception-exist">
@@ -167,7 +167,7 @@
                                 <input type="time" class="monosize vip-time" name="" id="" value="{{ exception.vip_time_until }}" disabled>
                             </div>
 
-                            <button class="delete-exception" data-id="{{ exception.id }}">✕</button>
+                            <button class="delete-exception" data-id="{{ exception.id }}" data-flag="0">✕</button>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -181,7 +181,7 @@
 
 
     <div class="button-block">
-        <button class="delivery-exception">Сохранить изменения</button>
+        <button class="delivery-exception" id="save-changes">Сохранить изменения</button>
         <a href="/" class="delivery-exception-link">
             <button class="delivery-exception delivery-exception-cancel">Отменить и выйти</button>
         </a>
