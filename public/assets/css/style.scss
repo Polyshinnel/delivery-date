@@ -12,6 +12,7 @@
     width: 1340px;
     margin: auto;
     margin-top: 50px;
+    padding-bottom: 100px;
 }
 
 .provider-wrapper{
@@ -34,10 +35,22 @@
     }
 }
 
+
 .delivery-wrapper{
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    padding: 30px 20px;
+    .block-title{
+        font-size: 20px;
+        font-weight: 500;
+        color: #333;
+    }
+    
     .delivery-wrapper__title{
         display: flex;
         align-items: flex-start;
+        margin-top: 50px;
 
         p{
             width: 160px;
@@ -56,7 +69,7 @@
         display: flex;
         align-items: flex-start;
         margin-top: 20px;
-        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
         padding: 10px 0;
 
         .checkbox-wrapper{
@@ -94,10 +107,14 @@
     
 }
 
+.delivery-wrapper-exception{
+    margin-top: 40px;
+}
+
 .delivery-exception-link{
     text-decoration: none;
     display: flex;
-    margin-top: 20px;
+    margin-left: 20px;
     width: 200px;
     height: 45px;
 }
@@ -106,13 +123,18 @@
     width: 200px;
     height: 45px;
     cursor: pointer;
+    background: #8FD14F;
+}
+
+.delivery-exception-cancel{
+    background: #F24726;
 }
 
 .refresh-data{
-    margin-top: 50px;
-    width: 150px;
+    margin-top: 30px;
+    width: 170px;
     height: 35px;
-    background-color: aqua;
+    background-color: #8FD14F;
     cursor: pointer;
 }
 
@@ -121,4 +143,9 @@
     width: 25px;
     height: 25px;
     cursor: pointer;
+}
+
+.button-block{
+    display: flex;
+    margin-top: 50px;
 }

@@ -23,23 +23,6 @@ class DeliveryExceptionPage
         $this->deliveryExceptionController = $deliveryExceptionController;
     }
 
-    public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $providerId = $args['id'];
-
-        $exceptionList = $this->deliveryExceptionController->getDeliveryExceptionList($providerId);
-
-        $data = $this->twig->fetch('exception-delivery.twig', [
-            'title' => 'Страница доставки',
-            'exception_list' => $exceptionList
-        ]);
-
-        return new Response(
-            200,
-            new Headers(['Content-Type' => 'text/html']),
-            (new StreamFactory())->createStream($data)
-        );
-    }
 
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {

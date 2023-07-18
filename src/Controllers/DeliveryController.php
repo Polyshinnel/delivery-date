@@ -47,7 +47,7 @@ class DeliveryController
         if(!empty($rawDeliveryList)) {
             foreach ($rawDeliveryList as $item) {
                 $item['encoded_week_day'] = $this->russianWeekDict[$item['week_day']];
-                $encoder = $this->encodeDelivery($item);
+                $encoder = $this->encodeWeekDelivery($item);
                 $item['delivery_day'] = $encoder['delivery_day'];
                 $item['vip_day'] = $encoder['vip_day'];
                 $deliveryList[] = $item;
@@ -272,5 +272,49 @@ class DeliveryController
             'delivery_day' => $textDelivery,
             'vip_day' => $textVipDelivery
         ];
+    }
+
+    private function encodeWeekDelivery($item) {
+        $weekDay = $item['week_day'];
+        $deliveryFlag = $item['delivery_flag'];
+
+        if(!$deliveryFlag) {
+            return [
+                'delivery_day' => 'Доставка в этот день не доступна',
+                'vip_day' => 'Vip доставка в этот день не доступна'
+            ];
+        }
+
+        $vipFlag = $item['vip_flag'];
+        $vipTime = $item['vip_time_until'];
+        if(!$vipFlag){
+            $vipDay = 'Vip доставка в этот день не доступна';
+        } else {
+            $vipDay = 'Доступна при заказе до: '.$vipTime;
+        }
+
+        $deliveryDayOffset = $item['delivery_day_offset'];
+        $shipmentTimeUntil = $item['shipment_time_until'];
+
+        $nextWeekDay = (($weekDay + $deliveryDayOffset) % 7);
+        $encodedDay = $this->russianWeekDict[$nextWeekDay];
+        $nextWeekPointer = '';
+
+        if((($weekDay + $deliveryDayOffset) / 7) > 1) {
+            $nextWeekPointer = $this->offsetRussianDict[$encodedDay].' ';
+        }
+
+
+
+        $deliveryDay = 'Привезут в '.$nextWeekPointer.$encodedDay.' при заказе до: '.$shipmentTimeUntil;
+        return [
+            'delivery_day' => $deliveryDay,
+            'vip_day' => $vipDay
+        ];
+    }
+
+    public function calculateDelivery($json) {
+        $jsonArr = json_decode($json, true);
+        return $this->encodeWeekDelivery($jsonArr);
     }
 }

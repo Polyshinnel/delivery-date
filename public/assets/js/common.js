@@ -4,41 +4,6 @@ function getProviderId() {
     return urlArr.pop()
 }
 
-$('#add-delivery').click(function () {
-    $('.delivery-wrapper').append('<div class="delivery-line">\n' +
-        '            <p class="monosize">\n' +
-        '                <select name="" id="" class="delivery-day">\n' +
-        '                    <option value="1">Понедельник</option>\n' +
-        '                    <option value="2">Вторник</option>\n' +
-        '                    <option value="3">Среда</option>\n' +
-        '                    <option value="4">Четверг</option>\n' +
-        '                    <option value="5">Пятница</option>\n' +
-        '                    <option value="6">Суббота</option>\n' +
-        '                    <option value="0">Воскресенье</option>\n' +
-        '                </select>\n' +
-        '            </p>\n' +
-        '            <div class="checkbox-wrapper monosize">\n' +
-        '                <input type="checkbox" name="" id="" class="delivery-flag">\n' +
-        '            </div>\n' +
-        '            <div class="monosize">\n' +
-        '                <input type="time" class="monosize delivery-time-until" name="" id="" value="">\n' +
-        '            </div>\n' +
-        '\n' +
-        '            <div class="monosize">\n' +
-        '                <input type="text" class="monosize delivery-day-offset" name="" id="" value="">\n' +
-        '            </div>\n' +
-        '\n' +
-        '            <div class="checkbox-wrapper monosize">\n' +
-        '                <input type="checkbox" name="" id="" class="vip-flag">\n' +
-        '            </div>\n' +
-        '\n' +
-        '            <div class="monosize">\n' +
-        '                <input type="time" class="monosize vip-time" name="" id="" value="">\n' +
-        '            </div>\n' +
-        '\n' +
-        '        </div>')
-});
-
 
 
 $('#create-events').click(function () {
@@ -133,8 +98,8 @@ $('#refresh-delivery').click(function () {
     });
 })
 
-$('#add-delivery-exception').click(function () {
-    $('.delivery-wrapper').append('<div class="delivery-line delivery-exception-new">\n' +
+$('#add-delivery').click(function () {
+    $('.delivery-exception-block').append('<div class="delivery-line delivery-exception-new">\n' +
         '            <p class="monosize">\n' +
         '                <input type="text" name="" id="" class="delivery-name">\n' +
         '            </p>\n' +
@@ -278,5 +243,68 @@ $('.delete-exception').click(function () {
         success: function(data){
             window.location.reload()
         }
+    });
+})
+
+
+
+
+$(document).ready(function () {
+    $('.delivery-line input').on('input', function() {
+
+        let weekDay = $(this).parent().parent().find('.delivery-week-day').attr('data-id')
+        let deliveryCheckbox = $(this).parent().parent().find('.delivery-flag input')
+        let deliveryTimeInput = $(this).parent().parent().find('.delivery-time')
+        let deliveryDayOffsetInput = $(this).parent().parent().find('.delivery-day-offset')
+        let vipCheckbox = $(this).parent().parent().find('.delivery-vip input')
+        let vipDeliveryTimeInput = $(this).parent().parent().find('.delivery-vip-time')
+        let deliveryFlag = 0;
+        let vipFlag = 0;
+        let deliveryPrediction = $(this).parent().parent().find('.delivery-prediction')
+        let vipPrediction = $(this).parent().parent().find('.vip-prediction')
+
+
+        $(this).parent().parent().css('background','#FFAFB2')
+        if(!deliveryCheckbox.is(':checked')){
+            deliveryTimeInput.prop("disabled",true)
+            deliveryDayOffsetInput.prop("disabled",true)
+            vipCheckbox.prop("disabled",true)
+            vipDeliveryTimeInput.prop("disabled",true)
+        } else {
+            deliveryFlag = 1;
+            deliveryTimeInput.prop("disabled",false)
+            deliveryDayOffsetInput.prop("disabled",false)
+            vipCheckbox.prop("disabled",false)
+            vipDeliveryTimeInput.prop("disabled",false)
+        }
+
+        if(vipCheckbox.is(':checked')) {
+            vipFlag = 1;
+        }
+
+
+        let jsonObj = {
+            'week_day': weekDay,
+            'delivery_flag': deliveryFlag,
+            'delivery_day_offset': deliveryDayOffsetInput.val(),
+            'shipment_time_until': deliveryTimeInput.val(),
+            'vip_flag': vipFlag,
+            'vip_time_until': vipDeliveryTimeInput.val()
+        }
+
+        let json = JSON.stringify(jsonObj)
+
+        $.ajax({
+            url: '/settings/prediction-delivery',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                json: json
+            },
+            success: function(data){
+                deliveryPrediction.html(data.delivery_day)
+                vipPrediction.html(data.vip_day)
+            }
+        });
     });
 })
